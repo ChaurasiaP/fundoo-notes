@@ -13,6 +13,7 @@ class _MainRouteState extends State<MainRoute> {
   // declaring a global key to enable drawer expansion, where required
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  // initializing some variables which will be used and repeated multiple times throughout
   var widgetBG = Colors.white70;
   var widgetsColor = Colors.blue.shade900;
 
@@ -22,13 +23,16 @@ class _MainRouteState extends State<MainRoute> {
 
       key: _drawerKey,
 
+      // drawer menu-bar code
       drawer: Drawer(
         child: Column(
           children: <Widget>[
+
+            // drawer header content
             SizedBox(
               height: 250, width: 350,
-              child: DrawerHeader(
-                padding: EdgeInsets.all(10),
+              child: DrawerHeader( // always shown on left side of the menu bar
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(color: widgetsColor),
                 child: Center(
                   child: Text("Fundoo Notes", style: TextStyle(
@@ -37,7 +41,9 @@ class _MainRouteState extends State<MainRoute> {
                 ),
               ),
             ),
+            // drawer header content ends
 
+            // draw menu-bar items
             const Padding(
               padding: EdgeInsets.all(18.0),
               child: ListTile(
@@ -53,9 +59,12 @@ class _MainRouteState extends State<MainRoute> {
                 title: Text("Settings"),
               ),
             )
+            // drawer menu-bar items ends
+
           ],
         ),
       ),
+      // drawer menu-bar ends
 
       backgroundColor: Colors.lightBlueAccent,
       resizeToAvoidBottomInset: false,
@@ -63,7 +72,7 @@ class _MainRouteState extends State<MainRoute> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
+          child: Container( // title bar
             height: 55,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -71,6 +80,7 @@ class _MainRouteState extends State<MainRoute> {
               borderRadius: BorderRadius.circular(8.5)
             ),
 
+            //title bar items wrapped under row, since, they are to be displayed in a row
             child: Row(
               children: <Widget>[
                 IconButton(onPressed: () {
