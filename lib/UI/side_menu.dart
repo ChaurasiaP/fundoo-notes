@@ -1,8 +1,12 @@
+
 import 'package:flutter/material.dart';
+import 'package:fundoo_notes_app/UI/routes/settings.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
+
+  get context => null;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +100,9 @@ class SideMenu extends StatelessWidget {
               ))
 
           ),
-          onPressed: (){},
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsRoute()));
+          },
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
