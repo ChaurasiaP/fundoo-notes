@@ -13,6 +13,8 @@ class MainRoute extends StatefulWidget {
 class _MainRouteState extends State<MainRoute> {
   // declaring a global key to enable drawer expansion, where required
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  String headingNote = "Heading";
+
 
   @override
   Widget build(BuildContext context) {

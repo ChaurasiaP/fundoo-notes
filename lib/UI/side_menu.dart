@@ -6,7 +6,7 @@ import 'package:fundoo_notes_app/style/colors.dart';
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
 
-  get context => null;
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,27 @@ class SideMenu extends StatelessWidget {
               const SizedBox(height: 14),
               _sectionTwo(),
               const SizedBox(height: 14),
-              _sectionThree(),
+              TextButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(50),
+                              bottomRight: Radius.circular(50)
+                          )
+                      ))
+
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsRoute()));
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.settings, size: 30),
+                      SizedBox(width: 30),
+                      Text("Settings",style: TextStyle(fontSize: 18),)
+                    ],
+                  ))
 
               // drawer menu-bar items ends
             ],
@@ -88,27 +108,4 @@ class SideMenu extends StatelessWidget {
               Text("My Archives",style: TextStyle(fontSize: 18),)
             ],
           ));
-
-  Widget _sectionThree() =>
-      TextButton(
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(50),
-                      bottomRight: Radius.circular(50)
-                  )
-              ))
-
-          ),
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsRoute()));
-          },
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(Icons.settings, size: 30),
-              SizedBox(width: 30),
-              Text("Settings",style: TextStyle(fontSize: 18),)
-            ],
-          ));
-}
+      }
