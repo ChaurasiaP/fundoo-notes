@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fundoo_notes_app/UI/routes/add_new_note.dart';
 import 'package:fundoo_notes_app/UI/side_menu.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
+import 'package:sqflite/sqflite.dart';
 
 class MainRoute extends StatefulWidget {
   const MainRoute({super.key});
@@ -14,7 +16,7 @@ class _MainRouteState extends State<MainRoute> {
   // declaring a global key to enable drawer expansion, where required
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   String headingNote = "Heading";
-
+  String notesContent = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum";
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,15 @@ class _MainRouteState extends State<MainRoute> {
       backgroundColor: Colors.lightBlueAccent,
       resizeToAvoidBottomInset: false,
 
+      floatingActionButton:FloatingActionButton.small(
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute
+            (builder: (context) => AddNewNote()));
+          },
+
+      child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: Container(
           alignment: Alignment.topLeft,
@@ -58,8 +69,6 @@ class _MainRouteState extends State<MainRoute> {
                   children: [Text("All")],
                 ),
               ),
-
-
               GridView.count(
                 shrinkWrap: true,
                 primary: false,
@@ -68,7 +77,13 @@ class _MainRouteState extends State<MainRoute> {
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
                 children: <Widget>[
-
+                  mainScreenSection(),
+                  mainScreenSection(),
+                  mainScreenSection(),
+                  mainScreenSection(),
+                  mainScreenSection(),
+                  mainScreenSection(),
+                  mainScreenSection(),
                   mainScreenSection(),
                   mainScreenSection(),
                   mainScreenSection(),
@@ -119,17 +134,23 @@ class _MainRouteState extends State<MainRoute> {
           borderRadius: BorderRadius.circular(7.5)
         ),
           padding: const EdgeInsets.all(8),
-          child: const Column(
+          child: Column(
             children: [
-              TextField(
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none
-                ),
-              ),
+              Text(headingNote, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),textDirection: TextDirection.ltr,),
+              Text(notesContent)
+
+              // TextField(
+              //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              // ),
+              // TextField(
+              //   decoration: InputDecoration(
+              //       border: InputBorder.none
+              //   ),
+              // ),
             ],
           )
       );
 }
+
+
+
