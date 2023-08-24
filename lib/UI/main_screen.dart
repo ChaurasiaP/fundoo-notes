@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fundoo_notes_app/UI/routes/add_new_note.dart';
 import 'package:fundoo_notes_app/UI/side_menu.dart';
+import 'package:fundoo_notes_app/services/db.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
-import 'package:sqflite/sqflite.dart';
 
 class MainRoute extends StatefulWidget {
   const MainRoute({super.key});
@@ -16,7 +15,18 @@ class _MainRouteState extends State<MainRoute> {
   // declaring a global key to enable drawer expansion, where required
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   String headingNote = "Heading";
-  String notesContent = "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum";
+  String notesContent =
+      "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum";
+
+  Future createEntry() async{
+    await NotesDataBase.instance.create();
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    createEntry();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +40,12 @@ class _MainRouteState extends State<MainRoute> {
       backgroundColor: Colors.lightBlueAccent,
       resizeToAvoidBottomInset: false,
 
-      floatingActionButton:FloatingActionButton.small(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute
-            (builder: (context) => AddNewNote()));
-          },
-
-      child: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddNewNote()));
+        },
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
@@ -91,8 +100,7 @@ class _MainRouteState extends State<MainRoute> {
                   mainScreenSection(),
                 ],
               )
-            ]
-            ),
+            ]),
           ),
         ),
       ),
@@ -127,30 +135,28 @@ class _MainRouteState extends State<MainRoute> {
       onPressed: () {}, icon: Icon(Icons.search_rounded, color: widgetsColor));
 
   // notes section on main screen
-  Widget mainScreenSection() =>
-      Container(
-        decoration: BoxDecoration(
+  Widget mainScreenSection() => Container(
+      decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(7.5)
-        ),
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Text(headingNote, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),textDirection: TextDirection.ltr,),
-              Text(notesContent)
+          borderRadius: BorderRadius.circular(7.5)),
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          Text(
+            headingNote,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            textDirection: TextDirection.ltr,
+          ),
+          Text(notesContent)
 
-              // TextField(
-              //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              // ),
-              // TextField(
-              //   decoration: InputDecoration(
-              //       border: InputBorder.none
-              //   ),
-              // ),
-            ],
-          )
-      );
+          // TextField(
+          //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          // ),
+          // TextField(
+          //   decoration: InputDecoration(
+          //       border: InputBorder.none
+          //   ),
+          // ),
+        ],
+      ));
 }
-
-
-
