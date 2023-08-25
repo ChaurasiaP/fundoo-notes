@@ -15,7 +15,7 @@ class DisplayNote extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text(heading, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
+          Text(content, style: const TextStyle(fontSize: 16),)
         ],
       ),
     );
