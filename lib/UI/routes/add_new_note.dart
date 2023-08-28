@@ -22,6 +22,7 @@ class _AddNewNoteState extends State<AddNewNote> {
         title: const Text("Add New Note..."),
       ),
       backgroundColor: routesBG,
+      resizeToAvoidBottomInset: false, // to avoid pixels overflow error while opening the keyboard
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
@@ -29,9 +30,11 @@ class _AddNewNoteState extends State<AddNewNote> {
           mainAxisAlignment: MainAxisAlignment.start,
 
           children: [
+            // text field to get the heading of the note
             TextField(
               controller: headingController,
               decoration: const InputDecoration(
+                border: InputBorder.none,
                 hintText: "Heading"
               ),
               style: const TextStyle(
@@ -39,12 +42,20 @@ class _AddNewNoteState extends State<AddNewNote> {
                 fontSize: 16
               ),
             ),
-            TextField(
-              controller: notesContentController,
-              decoration: const InputDecoration(
-                hintText: "Enter your note"
+            // textfield area to get the content of the note
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.5,
+              width: MediaQuery.of(context).size.width,
+              child: TextField(
+                controller: notesContentController,
+                decoration: const InputDecoration(
+                    border: InputBorder.none,
+                  hintText: "Enter your note"
+                ),
               ),
             ),
+
+            // create note button to save the data and display the note on another route
             ElevatedButton(onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayNote(heading: headingController.text, content: notesContentController.text)));
             },

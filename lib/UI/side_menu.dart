@@ -1,18 +1,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:fundoo_notes_app/UI/routes/settings.dart';
+import 'package:fundoo_notes_app/style/button_style.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-
+      backgroundColor: routesBG,
         child: SafeArea(
           child: Column(
             children: <Widget>[
@@ -20,7 +18,8 @@ class SideMenu extends StatelessWidget {
               DrawerHeader(
                 // always shown on left side of the menu bar
 
-                decoration: BoxDecoration(color: widgetsColor),
+                decoration: BoxDecoration(color: widgetsColor,
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(50), bottomRight: Radius.circular(50))),
                 child: Center(
                   child: Text(
                     "Fundoo Notes",
@@ -29,31 +28,23 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
               // drawer header content ends
-
-              // draw menu-bar items
-              _sectionOne(),
               const SizedBox(height: 14),
-              _sectionTwo(),
+              // draw menu-bar items
+              _myNotesSection(),
+              const SizedBox(height: 14),
+              _myArchivesSection(),
               const SizedBox(height: 14),
               TextButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(50),
-                              bottomRight: Radius.circular(50)
-                          )
-                      ))
-
-                  ),
+                  style: buttonStyle,
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsRoute()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SettingsRoute()));
                   },
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.settings, size: 30),
-                      SizedBox(width: 30),
-                      Text("Settings",style: TextStyle(fontSize: 18),)
+                      const Icon(Icons.settings, size: 30,color: Colors.white,),
+                      const SizedBox(width: 30),
+                      _sideMenuText("Settings")
                     ],
                   ))
 
@@ -61,51 +52,37 @@ class SideMenu extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 
-  Widget _sectionOne() =>
+  Widget _myNotesSection() =>
       TextButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.cyanAccent),
-          shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(50),
-              bottomRight: Radius.circular(50)
-            )
-        ))
-
-        ),
+        style: buttonStyle,
           onPressed: (){},
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.lightbulb_outline_rounded, size: 30),
-              SizedBox(width: 30),
-              Text("My Notes",style: TextStyle(fontSize: 18),)
+              const Icon(Icons.lightbulb, size: 30,color: Colors.yellow,),
+              const SizedBox(width: 30),
+              _sideMenuText("My Notes")
             ],
           ));
 
-  Widget _sectionTwo() =>
+  Widget _myArchivesSection() =>
       TextButton(
-          style: ButtonStyle(
-
-              shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(50),
-                      bottomRight: Radius.circular(50)
-                  )
-              ))
-
-          ),
+          style: buttonStyle,
           onPressed: (){},
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.archive_outlined, size: 30),
-              SizedBox(width: 30),
-              Text("My Archives",style: TextStyle(fontSize: 18),)
+              const Icon(Icons.archive_outlined, size: 30, color: Colors.white,),
+              const SizedBox(width: 30),
+              _sideMenuText("My Archives")
             ],
-          ));
-      }
+          )
+      ); 
+  
+  Widget _sideMenuText(String tabName) =>
+      Text(tabName, style: const TextStyle(fontSize: 18,
+          color: Colors.white));
+}

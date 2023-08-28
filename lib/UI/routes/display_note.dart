@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fundoo_notes_app/style/colors.dart';
 
 
 class DisplayNote extends StatelessWidget {
@@ -13,10 +14,10 @@ class DisplayNote extends StatelessWidget {
       appBar: AppBar(
         title: Text(heading),
       ),
-      body: Column(
-        children: [
-          Text(content, style: const TextStyle(fontSize: 16),)
-        ],
+      backgroundColor: routesBG,
+      body: Padding(
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.1),
+        child: Text(content, style: const TextStyle(fontSize: 16),),
       ),
     );
   }
