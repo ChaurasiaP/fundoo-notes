@@ -13,7 +13,7 @@ class MainRoute extends StatefulWidget {
   const MainRoute({super.key});
 
   @override
-  State<MainRoute> createState() => _MainRouteState();
+   State<MainRoute> createState() => _MainRouteState();
 }
 
 class _MainRouteState extends State<MainRoute> {
@@ -64,12 +64,18 @@ class _MainRouteState extends State<MainRoute> {
       ),
       // floating action button (+) to create new note
       floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final result = await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      const AddNewNote())); // routing to another screen ( AddNewNote() ) to add new note
+                      const AddNewNote())
+          ); // routing to another screen ( AddNewNote() ) to add new note
+          if(result != null){
+            setState(() {
+              notesList.add(Note(id: notesList.length, title: result[0], content: result[1], lastUpdatedTime: DateTime.now()));
+            });
+           }
         },
         child: const Icon(
           Icons.add,
