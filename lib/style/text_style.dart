@@ -18,3 +18,5 @@ var subtitleTextStyle = const TextStyle(
   fontWeight: FontWeight.normal,
   color: Colors.black54
 );
+var hintTextStyle = const TextStyle(color: Colors.black54, fontSize: 14);
+var headingHintStyle = const TextStyle(color: Colors.black54, fontSize: 25);

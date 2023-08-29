@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fundoo_notes_app/UI/routes/display_note.dart';
-import 'package:fundoo_notes_app/notes_db/sample_notes.dart';
+import 'package:fundoo_notes_app/services/sample_notes.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 import 'package:fundoo_notes_app/style/text_style.dart';
 
@@ -23,23 +22,25 @@ class _AddNewNoteState extends State<AddNewNote> {
       appBar: AppBar(
         title: const Text("Add New Note..."),
       ),
-      backgroundColor: routesBG,
-      resizeToAvoidBottomInset: false,
-      // to avoid pixels overflow error while opening the keyboard
+      backgroundColor: allRoutesBG,
+      resizeToAvoidBottomInset: false, // to avoid overflow while opening keyboard
       body: Column(
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Expanded(
             child: ListView(children: [
+
+              // enter heading for the note
               TextField(
                 controller: headingController,
                 decoration: const InputDecoration(
                     border: InputBorder.none, hintText: "Heading"),
-                style:headingStyle,
+                style:headingHintStyle,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.5,
                 width: MediaQuery.of(context).size.width,
+                // enter the content for the note
                 child: TextField(
                   // to be able to change line once the line is filled,
                   // maxLines is null so that it will automatically adjust the size as per the text input,
@@ -48,11 +49,11 @@ class _AddNewNoteState extends State<AddNewNote> {
                   maxLines: null, // this will change the line automatically once the specified space is filled
                   controller: notesContentController,
                   decoration: InputDecoration(
-                      border: InputBorder.none, hintText: "Enter your note",hintStyle: contentStyle),
+                      border: InputBorder.none, hintText: "Enter your note...",hintStyle: hintTextStyle),
                 ),
               ),
 
-              // create note button to save the data and display the note on another route
+              // create note button, will route to the main screen and add the new note to the list
               Center(
                 child: ElevatedButton(
                     onPressed: () {

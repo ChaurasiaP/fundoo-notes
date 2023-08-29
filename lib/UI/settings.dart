@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fundoo_notes_app/style/colors.dart';
 
 class SettingsRoute extends StatelessWidget {
   const SettingsRoute({super.key});
@@ -9,7 +10,7 @@ class SettingsRoute extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Settings"),
       ),
-
+      backgroundColor: allRoutesBG,
     );
   }
 }

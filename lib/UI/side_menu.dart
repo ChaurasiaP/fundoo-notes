@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:fundoo_notes_app/UI/routes/settings.dart';
+import 'package:fundoo_notes_app/UI/settings.dart';
 import 'package:fundoo_notes_app/style/button_style.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
@@ -10,7 +10,7 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: routesBG,
+      backgroundColor: allRoutesBG,
         child: SafeArea(
           child: Column(
             children: <Widget>[
@@ -18,12 +18,12 @@ class SideMenu extends StatelessWidget {
               DrawerHeader(
                 // always shown on left side of the menu bar
 
-                decoration: BoxDecoration(color: widgetsColor,
-                borderRadius: const BorderRadius.only(topRight: Radius.circular(50), bottomRight: Radius.circular(50))),
-                child: Center(
+                decoration: BoxDecoration(color: Colors.blue.shade900,
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(100), bottomRight: Radius.circular(100))),
+                child: const Center(
                   child: Text(
                     "Fundoo Notes",
-                    style: TextStyle(fontSize: 28, color: widgetBG, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 28, color: Colors.white70, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -42,7 +42,7 @@ class SideMenu extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Icon(Icons.settings, size: 30,color: Colors.white,),
+                      const Icon(Icons.settings, size: 25,color: Colors.white,),
                       const SizedBox(width: 30),
                       _sideMenuText("Settings")
                     ],
@@ -62,7 +62,7 @@ class SideMenu extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(Icons.lightbulb, size: 30,color: Colors.yellow,),
+              const Icon(Icons.lightbulb, size: 25,color: Colors.yellow,),
               const SizedBox(width: 30),
               _sideMenuText("My Notes")
             ],
@@ -75,7 +75,7 @@ class SideMenu extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(Icons.archive_outlined, size: 30, color: Colors.white,),
+              const Icon(Icons.archive_outlined, size: 25, color: Colors.white,),
               const SizedBox(width: 30),
               _sideMenuText("My Archives")
             ],
@@ -83,6 +83,6 @@ class SideMenu extends StatelessWidget {
       ); 
   
   Widget _sideMenuText(String tabName) =>
-      Text(tabName, style: const TextStyle(fontSize: 18,
-          color: Colors.white));
+      Text(tabName, style: const TextStyle(fontSize: 16,
+          color: Colors.white, fontStyle: FontStyle.italic));
 }

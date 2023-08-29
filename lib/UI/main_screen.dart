@@ -1,11 +1,11 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fundoo_notes_app/UI/routes/add_new_note.dart';
-import 'package:fundoo_notes_app/UI/routes/display_note.dart';
+import 'package:fundoo_notes_app/UI/add_new_note.dart';
+import 'package:fundoo_notes_app/UI/display_note.dart';
 import 'package:fundoo_notes_app/UI/side_menu.dart';
-import 'package:fundoo_notes_app/notes_db/sample_notes.dart';
+import 'package:fundoo_notes_app/services/login_info.dart';
+import 'package:fundoo_notes_app/services/sample_notes.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 import 'package:fundoo_notes_app/style/text_style.dart';
 
@@ -17,6 +17,8 @@ class MainRoute extends StatefulWidget {
 }
 
 class _MainRouteState extends State<MainRoute> {
+
+
   List<Note> notesList = Note.getSampleNotes();
 
   // declaring a global key to enable drawer expansion, where required
@@ -31,7 +33,7 @@ class _MainRouteState extends State<MainRoute> {
       drawer: const SideMenu(),
       // drawer menu-bar ends
 
-      backgroundColor: Colors.lightBlueAccent[100],
+      backgroundColor: allRoutesBG,
 
       body: SafeArea(
         // wrapped into SafeArea widget display content below the notch area
@@ -44,7 +46,7 @@ class _MainRouteState extends State<MainRoute> {
               width: MediaQuery.of(context).size.width,
 
               decoration: BoxDecoration(
-                  color: widgetBG, borderRadius: BorderRadius.circular(8.5)),
+                  color: searchBarBG, borderRadius: BorderRadius.circular(8.5)),
 
               //title bar items wrapped under row, since, they are to be displayed in a row
               child: Row(
@@ -92,7 +94,7 @@ class _MainRouteState extends State<MainRoute> {
       onPressed: () {
         _drawerKey.currentState!.openDrawer();
       },
-      icon: Icon(Icons.menu, color: widgetsColor));
+      icon: Icon(Icons.menu, color: buttonsColor));
 
   // search bar
   Widget _searchBar() => Container(
@@ -110,11 +112,11 @@ class _MainRouteState extends State<MainRoute> {
 
   // switch to list/tab view
   Widget _changeViewMode() =>
-      IconButton(onPressed: () {}, icon: Icon(Icons.list, color: widgetsColor));
+      IconButton(onPressed: () {}, icon: Icon(Icons.list, color: buttonsColor));
 
 // search icon
   Widget _searchButton() => IconButton(
-      onPressed: () {}, icon: Icon(Icons.search_rounded, color: widgetsColor));
+      onPressed: () {}, icon: Icon(Icons.search_rounded, color: buttonsColor));
 
   Widget _displayNotes() => Expanded(
         child: MasonryGridView.count(
@@ -134,7 +136,7 @@ class _MainRouteState extends State<MainRoute> {
                   },
                   child: Container(
                       decoration: BoxDecoration(
-                          // color: _colorGenerator(),
+                           color: _colorGenerator(),
                           border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(7.5)),
                       padding: const EdgeInsets.all(10),

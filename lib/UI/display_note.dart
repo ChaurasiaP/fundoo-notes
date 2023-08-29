@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
+// to expand the selected note and view it completely
 
 class DisplayNote extends StatelessWidget {
   final String heading;
@@ -14,7 +15,7 @@ class DisplayNote extends StatelessWidget {
       appBar: AppBar(
         title: Text(heading),
       ),
-      backgroundColor: routesBG,
+      backgroundColor: allRoutesBG,
       body: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.1),
         child: Text(content, style: const TextStyle(fontSize: 16),),
