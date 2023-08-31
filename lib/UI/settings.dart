@@ -55,6 +55,7 @@ class SettingsRoute extends StatelessWidget {
                           ElevatedButton(onPressed: (){
                             LocalDataSaver.saveLogData(false);
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
+                            debugPrint("USER LOGGED OUT");
                           }, child: const Icon(Icons.logout_rounded, size: 30)),
                         ])),
 
