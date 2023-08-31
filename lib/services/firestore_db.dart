@@ -18,4 +18,15 @@ class FirestoreDB{
          debugPrint("note added successfully");
     });
   }
+
+  // Read operation
+  readAllNotes(gmail) async{
+    await FirebaseFirestore.instance.collection("notes").doc(_auth.currentUser!.email).collection("userNotes").orderBy("date modified" ).get().then((querySnapshot){
+      querySnapshot.docs.forEach((result)
+      {
+        debugPrint(result.data().toString());
+      });
+    });
+  }
+
 }

@@ -28,10 +28,15 @@ class _MainRouteState extends State<MainRoute> {
   Future createNewNote() async{
     await FirestoreDB().createNewNoteFirestore("sdf", "34");
   }
+
+  Future readAllNotes() async{
+    await FirestoreDB().readAllNotes("sd");
+  }
   @override
   void initState(){
     super.initState();
-    createNewNote();
+    //createNewNote();
+    readAllNotes();
   }
 
   @override
