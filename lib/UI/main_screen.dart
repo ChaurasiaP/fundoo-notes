@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fundoo_notes_app/UI/add_new_note.dart';
@@ -28,15 +29,21 @@ class _MainRouteState extends State<MainRoute> {
   Future createNewNote() async{
     await FirestoreDB().createNewNoteFirestore("sdf", "34");
   }
-
+  Future updateNote() async{
+    await FirestoreDB().updateNote("Fifth title", "this is the Fifth demo content of the new heading", FirebaseAuth.instance.currentUser!.email.toString(), "2");
+  }
   Future readAllNotes() async{
     await FirestoreDB().readAllNotes("sd");
   }
+
+
   @override
   void initState(){
     super.initState();
     //createNewNote();
     readAllNotes();
+    updateNote();
+
   }
 
   @override

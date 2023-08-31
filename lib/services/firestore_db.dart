@@ -9,7 +9,10 @@ class FirestoreDB{
 
   // create new note method, stored at firebase -> cloud firestore
   createNewNoteFirestore(gmail, id) async{
-    await FirebaseFirestore.instance.collection("notes").doc(_auth.currentUser!.email).collection("userNotes").doc("2").set(
+    await FirebaseFirestore.instance.
+    collection("notes").doc(_auth.currentUser!.email).
+    collection("userNotes").doc("2").
+    set(
         {
           "Title": "Second Note",
           "content": "this is the content of the second note added using IDE command",
@@ -21,12 +24,21 @@ class FirestoreDB{
 
   // Read operation
   readAllNotes(gmail) async{
-    await FirebaseFirestore.instance.collection("notes").doc(_auth.currentUser!.email).collection("userNotes").orderBy("date modified" ).get().then((querySnapshot){
-      querySnapshot.docs.forEach((result)
-      {
+    await FirebaseFirestore.instance.
+    collection("notes").doc(_auth.currentUser!.email).
+    collection("userNotes").orderBy("date modified" ).get().
+    then((querySnapshot){
+      querySnapshot.docs.forEach((result) {
         debugPrint(result.data().toString());
       });
     });
   }
 
+  updateNote(String title, String content, String gmail, String id) async{
+    await FirebaseFirestore.instance.
+    collection("notes").doc(_auth.currentUser!.email).
+    collection("userNotes").doc("2").
+    update({"Title": title, "content": content, "date modified": DateTime.now() }).then((_) => debugPrint("Data modified successfully"));
+
+  }
 }
