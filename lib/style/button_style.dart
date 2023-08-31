@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fundoo_notes_app/style/colors.dart';
 
 var buttonStyle = ButtonStyle(
     shape: MaterialStateProperty.all(const RoundedRectangleBorder(
@@ -8,3 +7,6 @@ var buttonStyle = ButtonStyle(
         )
     ))
 );
+
+var tabsDecoration = const BoxDecoration(
+    border: Border(bottom: BorderSide(color: Colors.black)));

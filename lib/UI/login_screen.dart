@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fundoo_notes_app/UI/main_screen.dart';
 import 'package:fundoo_notes_app/UI/reset_password.dart';
 import 'package:fundoo_notes_app/UI/sign_up_screen.dart';
+import 'package:fundoo_notes_app/services/login_info.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 import 'package:fundoo_notes_app/style/text_style.dart';
 
@@ -15,6 +16,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // controllers to handle user input email and password
   TextEditingController userNameController = TextEditingController();
@@ -152,10 +155,15 @@ class _LoginPageState extends State<LoginPage> {
     debugPrint(email);
     debugPrint(password);
     try{
-      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email.trim(),
-          password: password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      final User? currentUser = await _auth.currentUser;
+      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainRoute()));
       _signedIn(email, password);
+      setState(() {
+        LocalDataSaver.saveLogData(true);
+        LocalDataSaver.saveEmail(currentUser!.email.toString());
+      });
+
 
       _showSnackBar("Login Successful", Colors.green.shade400);
 

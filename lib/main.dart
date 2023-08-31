@@ -24,7 +24,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isLogin = false;
+  late bool isLogin = false;
 
   getLoggedInState() async {
     await LocalDataSaver.getLogData().then((value) {
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: isLogin ? LoginPage() : MainRoute(),
-    );
+
+      home: isLogin ? MainRoute() : LoginPage());
   }
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fundoo_notes_app/UI/login_screen.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -33,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         debugPrint("User Created");
         _showSnackBar(
             "You are Successfully Registered with us!", Colors.green.shade400);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
       } on FirebaseAuthException catch (ex) {
         _showSnackBar(ex.code.toString(), Colors.red.shade400);
       }

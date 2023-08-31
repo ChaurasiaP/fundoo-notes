@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fundoo_notes_app/UI/add_new_note.dart';
 import 'package:fundoo_notes_app/UI/display_note.dart';
 import 'package:fundoo_notes_app/UI/side_menu.dart';
+import 'package:fundoo_notes_app/services/firestore_db.dart';
 import 'package:fundoo_notes_app/services/login_info.dart';
 import 'package:fundoo_notes_app/services/sample_notes.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
@@ -23,6 +24,15 @@ class _MainRouteState extends State<MainRoute> {
 
   // declaring a global key to enable drawer expansion, where required
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
+  Future createNewNote() async{
+    await FirestoreDB().createNewNoteFirestore("sdf", "34");
+  }
+  @override
+  void initState(){
+    super.initState();
+    createNewNote();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,12 +125,13 @@ class _MainRouteState extends State<MainRoute> {
       IconButton(onPressed: () {}, icon: Icon(Icons.list, color: buttonsColor));
 
 // search icon
-  Widget _searchButton() => IconButton(
+  Widget _searchButton() =>
+      IconButton(
       onPressed: () {}, icon: Icon(Icons.search_rounded, color: buttonsColor));
 
   Widget _displayNotes() => Expanded(
         child: MasonryGridView.count(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             itemCount: notesList.length,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fundoo_notes_app/style/colors.dart';
 
 var headingStyle = const TextStyle(
   fontSize: 16,
@@ -19,4 +20,8 @@ var subtitleTextStyle = const TextStyle(
   color: Colors.black54
 );
 var hintTextStyle = const TextStyle(color: Colors.black54, fontSize: 14);
+
 var headingHintStyle = const TextStyle(color: Colors.black54, fontSize: 25);
+
+var tabsTextStyle = TextStyle(
+    fontSize: 18, fontWeight: FontWeight.bold, color: buttonsColor);

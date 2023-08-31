@@ -1,14 +1,20 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fundoo_notes_app/UI/settings.dart';
+import 'package:fundoo_notes_app/services/login_info.dart';
 import 'package:fundoo_notes_app/style/button_style.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
 class SideMenu extends StatelessWidget {
+
   const SideMenu({super.key});
 
+
   @override
+
   Widget build(BuildContext context) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
     return Drawer(
       backgroundColor: allRoutesBG,
         child: SafeArea(
@@ -20,10 +26,19 @@ class SideMenu extends StatelessWidget {
 
                 decoration: BoxDecoration(color: Colors.blue.shade900,
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(100), bottomRight: Radius.circular(100))),
-                child: const Center(
-                  child: Text(
-                    "Fundoo Notes",
-                    style: TextStyle(fontSize: 28, color: Colors.white70, fontWeight: FontWeight.bold),
+                child: Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height*0.05),
+                      const Text (
+                        "Fundoo Notes",
+                        style: TextStyle(fontSize: 25, color: Colors.white70, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height*0.04),
+                      Text("Signed in as:\n${_auth.currentUser!.email}", style: const TextStyle(
+                        fontSize: 12, color: Colors.white54
+                      ),),
+                    ],
                   ),
                 ),
               ),
