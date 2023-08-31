@@ -58,7 +58,6 @@ class SettingsRoute extends StatelessWidget {
                             debugPrint("USER LOGGED OUT");
                           }, child: const Icon(Icons.logout_rounded, size: 30)),
                         ])),
-
               ],
             ),
           )
