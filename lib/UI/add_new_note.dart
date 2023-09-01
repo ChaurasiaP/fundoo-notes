@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fundoo_notes_app/UI/main_screen.dart';
+import 'package:fundoo_notes_app/services/firestore_db.dart';
 import 'package:fundoo_notes_app/services/sample_notes.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 import 'package:fundoo_notes_app/style/text_style.dart';
@@ -11,61 +13,84 @@ class AddNewNote extends StatefulWidget {
 }
 
 class _AddNewNoteState extends State<AddNewNote> {
-  List<Note> notesList = Note.getSampleNotes();
+  // List<Note> notesList = Note.getSampleNotes();
 
   TextEditingController headingController = TextEditingController();
   TextEditingController notesContentController = TextEditingController();
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add New Note..."),
-      ),
       backgroundColor: allRoutesBG,
       resizeToAvoidBottomInset: false, // to avoid overflow while opening keyboard
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView(children: [
+      body: SafeArea(
+        child: isLoading ? const Center(child:  CircularProgressIndicator()) : Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              height: MediaQuery.of(context).size.height * 0.08,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(color: activeTab),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const MainRoute()));
+                      },
+                      child: const Icon(Icons.arrow_back, color: Colors.white,)
+                  ),
+                  const Text("Add New Note", style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                  InkWell(
+                      onTap: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        await FirestoreDB.createNewNoteFirestore(headingController.text, notesContentController.text);
 
-              // enter heading for the note
-              TextField(
-                controller: headingController,
-                decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: "Heading"),
-                style:headingHintStyle,
+                        if(!mounted) return;
+                        Navigator.pop(context);
+                        },
+                      child: const Icon(Icons.save, color:  Colors.white))
+                ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5,
-                width: MediaQuery.of(context).size.width,
-                // enter the content for the note
-                child: TextField(
-                  // to be able to change line once the line is filled,
-                  // maxLines is null so that it will automatically adjust the size as per the text input,
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView(children: [
 
-                  keyboardType: TextInputType.multiline, // this enables enter key in textfield keyboard
-                  maxLines: null, // this will change the line automatically once the specified space is filled
-                  controller: notesContentController,
-                  decoration: InputDecoration(
-                      border: InputBorder.none, hintText: "Enter your note...",hintStyle: hintTextStyle),
+                // enter heading for the note
+                TextField(
+                  controller: headingController,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none, hintText: "Heading", hintStyle: TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 25)),
+                  style:const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
                 ),
-              ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: MediaQuery.of(context).size.width,
+                  // enter the content for the note
+                  child: TextField(
+                    // to be able to change line once the line is filled,
+                    // maxLines is null so that it will automatically adjust the size as per the text input,
 
-              // create note button, will route to the main screen and add the new note to the list
-              Center(
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context, [
-                        headingController.text, notesContentController.text
-                      ]);
-                    },
-                    child: const Text("Create new note")),
-              ),
-            ]),
-          ),
-        ],
+                    keyboardType: TextInputType.multiline, // this enables enter key in textfield keyboard
+                    maxLines: null, // this will change the line automatically once the specified space is filled
+                    controller: notesContentController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none, hintText: "Enter your note...",hintStyle: hintTextStyle),
+                  ),
+                ),
+
+                // create note button, will route to the main screen and add the new note to the list
+
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }

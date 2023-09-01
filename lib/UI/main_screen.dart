@@ -6,10 +6,11 @@ import 'package:fundoo_notes_app/UI/add_new_note.dart';
 import 'package:fundoo_notes_app/UI/display_note.dart';
 import 'package:fundoo_notes_app/UI/side_menu.dart';
 import 'package:fundoo_notes_app/services/firestore_db.dart';
-import 'package:fundoo_notes_app/services/login_info.dart';
-import 'package:fundoo_notes_app/services/sample_notes.dart';
+// import 'package:fundoo_notes_app/services/sample_notes.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 import 'package:fundoo_notes_app/style/text_style.dart';
+
+import '../services/my_note_model.dart';
 
 class MainRoute extends StatefulWidget {
   const MainRoute({super.key});
@@ -21,36 +22,38 @@ class MainRoute extends StatefulWidget {
 class _MainRouteState extends State<MainRoute> {
 
 
-  List<Note> notesList = Note.getSampleNotes();
+  List<Note> notesList = [];
 
   // declaring a global key to enable drawer expansion, where required
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   Future createNewNote() async{
-    await FirestoreDB().createNewNoteFirestore("sdf", "34");
+    // await FirestoreDB().createNewNoteFirestore("sdf", "34");
   }
   Future updateNote() async{
-    await FirestoreDB().updateNote("Sixth title", "this is the Sixth demo content of the new heading", FirebaseAuth.instance.currentUser!.email.toString(), "2");
+    // await FirestoreDB().updateNote("Sixth title", "this is the Sixth demo content of the new heading", FirebaseAuth.instance.currentUser!.email.toString(), "2");
   }
-  Future readAllNotes() async{
-    await FirestoreDB().readAllNotes("sd");
+  Future readNote() async{
+    // await FirestoreDB().readAllNotes("sd");
   }
   Future deleteNote() async{
-    await FirestoreDB().deleteNote("sd", "Dsf");
+    // await FirestoreDB.deleteNote();
   }
-
+  Future readAllNote() async{
+    // await FirestoreDB.getAllNotesData("as");
+  }
 
   @override
   void initState(){
     super.initState();
-    createNewNote();
-    readAllNotes();
-    updateNote();
-    deleteNote();
+    fetchNotes() ;
   }
 
+  bool isListView = false;
+  var viewMode = const Icon(Icons.list_outlined);
   @override
   Widget build(BuildContext context) {
+    debugPrint("inside build");
     return Scaffold(
       key: _drawerKey,
 
@@ -92,17 +95,16 @@ class _MainRouteState extends State<MainRoute> {
       // floating action button (+) to create new note
       floatingActionButton: FloatingActionButton.small(
         onPressed: () async {
-          final result = await Navigator.push(
+          await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
                       const AddNewNote())
           ); // routing to another screen ( AddNewNote() ) to add new note
-          if(result != null){
-            setState(() {
-              notesList.add(Note(id: notesList.length, title: result[0], content: result[1], lastUpdatedTime: DateTime.now()));
-            });
-           }
+          notesList = await FirestoreDB.getAllNotesData();
+          setState(() {
+
+          });
         },
         child: const Icon(
           Icons.add,
@@ -137,7 +139,16 @@ class _MainRouteState extends State<MainRoute> {
 
   // switch to list/tab view
   Widget _changeViewMode() =>
-      IconButton(onPressed: () {}, icon: Icon(Icons.list, color: buttonsColor));
+      IconButton(
+          onPressed: () {
+        setState(() {
+          isListView == false ?
+              (isListView = true, viewMode = const Icon(Icons.grid_view_outlined)):
+              (isListView = false, viewMode = const Icon(Icons.list_outlined));
+        });
+      },
+      icon: viewMode,
+      );
 
 // search icon
   Widget _searchButton() =>
@@ -150,15 +161,18 @@ class _MainRouteState extends State<MainRoute> {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             itemCount: notesList.length,
-            crossAxisCount: 2,
+            crossAxisCount: isListView ? 1 : 2,
             itemBuilder: (context, index) => InkWell(
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async{
+                    await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DisplayNote(
-                                heading: notesList[index].title,
-                                content: notesList[index].content)));
+                            builder: (context) => DisplayNote(note: notesList[index])));
+                      notesList = await FirestoreDB.getAllNotesData();
+                      setState(() {
+
+                      });
+
                   },
                   child: Container(
                       decoration: BoxDecoration(
@@ -182,9 +196,9 @@ class _MainRouteState extends State<MainRoute> {
                             style: contentStyle,
                           ),
                           const SizedBox(height: 10),
-                          Text(
-                              "last modified:\n ${notesList[index].lastUpdatedTime.toString().substring(0, 16)}",
-                              style: subtitleTextStyle),
+                          // Text(
+                          //     "last modified:\n ${notesList[index].createdTime}",
+                          //     style: subtitleTextStyle),
                         ],
                       )
                   ),
@@ -195,5 +209,11 @@ class _MainRouteState extends State<MainRoute> {
   Color? _colorGenerator() {
     var value = Random().nextInt(notesColors.length);
     return notesColors[value];
+  }
+
+  void fetchNotes() async {
+    notesList = await FirestoreDB.getAllNotesData();
+    setState(() {
+    });
   }
 }

@@ -22,6 +22,5 @@ var subtitleTextStyle = const TextStyle(
 var hintTextStyle = const TextStyle(color: Colors.black54, fontSize: 14);
 
 var headingHintStyle = const TextStyle(color: Colors.black54, fontSize: 25);
-
 var tabsTextStyle = TextStyle(
     fontSize: 18, fontWeight: FontWeight.bold, color: buttonsColor);

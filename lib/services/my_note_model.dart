@@ -6,18 +6,18 @@ class NotesFields {
   static final String pin = "pin";
   static final String title = "title";
   static final String content = "content";
-  static final String createdTime = "dateTime";
+  static final DateTime createdTime = DateTime.now();
   static final String tableName = "Notes";
 
-  static final List<String> values = [id, pin, title, content, createdTime];
+  static final List<String> values = [id, pin, title, content, createdTime.toString()];
 }
 
 class Note {
-  final int id;
+  final String id;
   final bool pin;
   final String title;
   final String content;
-  final DateTime createdTime;
+  final String createdTime;
 
   const Note({
     required this.id,
@@ -28,12 +28,11 @@ class Note {
   });
 
   static Note? fromJSON(Map<String, Object?> json) {
-    return Note(id: json[NotesFields.id] as int,
+    return Note(id: json[NotesFields.id] as String,
         pin: json[NotesFields.pin] == 1,
         title: json[NotesFields.title] as String,
         content: json[NotesFields.content] as String,
-        createdTime: DateTime.parse(json[NotesFields.createdTime] as String)
-    );
+        createdTime: DateTime.parse(json[NotesFields.createdTime].toString()) as String);
   }
 
   Map<String, Object> toJSON(){
@@ -42,15 +41,15 @@ class Note {
       NotesFields.pin: pin? 1: 0 ,
       NotesFields.title: title,
       NotesFields.content: content,
-      NotesFields.createdTime: createdTime.toIso8601String()
+      NotesFields.createdTime.toString(): createdTime
     };
   }
   Note copy({
-    int? id,
+    String? id,
     bool? pin,
     String? title,
     String? content,
-    DateTime? createdTime
+    String? createdTime
   }){
     return Note(
         id: id?? this.id,

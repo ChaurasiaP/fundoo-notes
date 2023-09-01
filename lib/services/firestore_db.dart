@@ -1,12 +1,15 @@
+import "dart:developer";
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/cupertino.dart";
+import "package:fundoo_notes_app/services/db.dart";
+import "package:fundoo_notes_app/services/my_note_model.dart";
 
 // CRUD operations with firebase
 class FirestoreDB{
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   /*
   WHAT IS USED IN THE CODE AND WHY AND HOW:-
@@ -18,44 +21,81 @@ class FirestoreDB{
    */
 
   // CREATE new note method, stored at firebase -> cloud firestore
-  createNewNoteFirestore(gmail, id) async{
-    await FirebaseFirestore.instance.
+  static Future <void> createNewNoteFirestore(String heading, String content) async{
+    final documentRef =  FirebaseFirestore.instance.
     collection("notes").doc(_auth.currentUser!.email).
-    collection("userNotes").doc("4").
-    set(
+    collection("userNotes").doc();
+
+    documentRef.set(
         {
-          "Title": "Fourth Note",
-          "content": "this is the content of the fourth note added using IDE command",
+
+          "id": documentRef.id,
+          "Title": heading,
+          "content": content,
           "date modified": DateTime.now()
         }).then((_) {
          debugPrint("note added successfully");
-    });
+    }).then((value) => log("inside then"));
+
+    log("message");
   }
 
   // READ operation
-  readAllNotes(gmail) async{
+  static readNote(String id) async{
     await FirebaseFirestore.instance.
     collection("notes").doc(_auth.currentUser!.email).
-    collection("userNotes").orderBy("date modified" ).get().
-    then((querySnapshot){
-      querySnapshot.docs.forEach((result) {
-        debugPrint(result.data().toString());
-      });
-    });
+    collection("userNotes").doc(id).get();
   }
 
   // UPDATE operation
-  updateNote(String title, String content, String gmail, String id) async{
-    await FirebaseFirestore.instance.
-    collection("notes").doc(_auth.currentUser!.email).
-    collection("userNotes").doc("2").
-    update({"Title": title, "content": content, "date modified": DateTime.now() }).then((_) => debugPrint("Data modified successfully"));
+  static Future <void> updateNote(String title, String content, String id) async {
+    try {
+      await FirebaseFirestore.instance.
+      collection("notes").doc(_auth.currentUser!.email).
+      collection("userNotes").doc(id).
+      update(
+          {"Title": title, "content": content, "date modified": DateTime.now()})
+          .then((_) => debugPrint("Data modified successfully"));
+    }on FirebaseException catch(ex){
+      debugPrint("ERROR UPDATING THE NOTE");
+      debugPrint(ex.code.toString());
+    }
   }
 
   // DELETE operation
-  deleteNote(gmail, id) async{
+  static Future<void> deleteNote(String id) async {
+    try {
+      await FirebaseFirestore.instance.
+      collection("notes").doc(_auth.currentUser!.email).
+      collection("userNotes").doc(id).delete().then((_) =>
+          debugPrint("DATA DELETED SUCCESSFULLY"));
+    }on FirebaseException catch(ex){
+      debugPrint("ERROR DELETING THE NOTE");
+      debugPrint(ex.code.toString());
+    }
+  }
+
+  // To get particular details from the database
+  static Future<List<Note>> getAllNotesData() async{
+    List<Note> notes = [];
     await FirebaseFirestore.instance.
     collection("notes").doc(_auth.currentUser!.email).
-    collection("userNotes").doc("2").delete().then((_) => debugPrint("DATA DELETED SUCCESSFULLY"));
+    collection("userNotes").orderBy("date modified", descending: true).get().then((querySnapshot) {
+      for (var element in querySnapshot.docs) {
+        Map noteMap = element.data();
+        debugPrint(noteMap["Title"]);
+        final title = noteMap["Title"];
+        final content = noteMap["content"];
+        final createdTime = noteMap["date modified"];
+        final id = noteMap["id"];
+
+         final note = Note(id: id, pin: false, title: title, content: content, createdTime: createdTime.toString());
+         notes.add(note);
+        // NotesDataBase.instance.create(Note(id: 4, pin: false, title: note["Title"], content: note["content"], createdTime: note["date modified"].toDate()));
+      }
+    });
+    return notes;
   }
+
 }
+

@@ -24,6 +24,13 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userNameController.text = "pranshu1431@gmail.com";
+    passwordController.text = "dob@1234";
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // to avoid pixel overflow while opening the keyboard
