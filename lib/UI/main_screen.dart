@@ -53,7 +53,6 @@ class _MainRouteState extends State<MainRoute> {
   var viewMode = const Icon(Icons.list_outlined);
   @override
   Widget build(BuildContext context) {
-    debugPrint("inside build");
     return Scaffold(
       key: _drawerKey,
 
@@ -169,9 +168,7 @@ class _MainRouteState extends State<MainRoute> {
                         MaterialPageRoute(
                             builder: (context) => DisplayNote(note: notesList[index])));
                       notesList = await FirestoreDB.getAllNotesData();
-                      setState(() {
-
-                      });
+                      setState(() {});
 
                   },
                   child: Container(
@@ -185,7 +182,7 @@ class _MainRouteState extends State<MainRoute> {
                         children: [
                           Text(
                             notesList[index].title,
-                            style: headingStyle,
+                            style: displayHeadingStyle,
                             textDirection: TextDirection.ltr,
                           ),
                           const SizedBox(height: 10),

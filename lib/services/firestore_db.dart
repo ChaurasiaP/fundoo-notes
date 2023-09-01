@@ -1,9 +1,7 @@
 import "dart:developer";
-
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/cupertino.dart";
-import "package:fundoo_notes_app/services/db.dart";
 import "package:fundoo_notes_app/services/my_note_model.dart";
 
 // CRUD operations with firebase
@@ -28,7 +26,6 @@ class FirestoreDB{
 
     documentRef.set(
         {
-
           "id": documentRef.id,
           "Title": heading,
           "content": content,
@@ -96,6 +93,40 @@ class FirestoreDB{
     });
     return notes;
   }
+  static Future<void>  archiveNote(String heading, String content, String id) async{
+    final documentRef =  FirebaseFirestore.instance.
+    collection("notes").doc(_auth.currentUser!.email).
+    collection("userArchivedNotes").doc();
+    documentRef.set(
+        {
+          "id": id,
+          "Title": heading,
+          "content": content,
+          "date modified": DateTime.now()
+        }).then((_) {
+          FirestoreDB.deleteNote(id);
+    });
+  }
 
+  static Future<List<Note>> fetchArchiveNotes() async{
+    List<Note> notes = [];
+    await FirebaseFirestore.instance.
+    collection("notes").doc(_auth.currentUser!.email).
+    collection("userArchivedNotes").orderBy("date modified", descending: true).get().then((querySnapshot) {
+      for (var element in querySnapshot.docs) {
+        Map noteMap = element.data();
+        debugPrint(noteMap["Title"]);
+        final title = noteMap["Title"];
+        final content = noteMap["content"];
+        final createdTime = noteMap["date modified"];
+        final id = noteMap["id"];
+
+        final note = Note(id: id, pin: false, title: title, content: content, createdTime: createdTime.toString());
+        notes.add(note);
+        // NotesDataBase.instance.create(Note(id: 4, pin: false, title: note["Title"], content: note["content"], createdTime: note["date modified"].toDate()));
+      }
+    });
+    return notes;
+  }
 }
 

@@ -61,34 +61,37 @@ class _EditNoteState extends State<EditNote> {
             ),
           const SizedBox(height: 20),
           Expanded(
-            child: ListView(children: [
-
-              // enter heading for the note
-              TextFormField(
-                  controller: headingController,
-                  decoration: InputDecoration(
-                      border: InputBorder.none, hintText: widget.note.title, hintStyle: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 25)),
-                  style:const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                width: MediaQuery.of(context).size.width,
-                // enter the content for the note
-                child: TextFormField(
-                  // to be able to change line once the line is filled,
-                  // maxLines is null so that it will automatically adjust the size as per the text input,
-
-                  keyboardType: TextInputType.multiline, // this enables enter key in textfield keyboard
-                  maxLines: null, // this will change the line automatically once the specified space is filled
-                  controller: notesContentController,
-                  decoration: InputDecoration(
-                      border: InputBorder.none, hintText: widget.note.content,hintStyle: hintTextStyle),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: ListView(children: [
+                // enter heading for the note
+                TextFormField(
+                    controller: headingController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none, hintText: widget.note.title, hintStyle: const TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 25)),
+                    style:headingStyle,
                 ),
-              ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: MediaQuery.of(context).size.width,
+                  // enter the content for the note
+                  child: TextFormField(
+                    // to be able to change line once the line is filled,
+                    // maxLines is null so that it will automatically adjust the size as per the text input,
 
-              // create note button, will route to the main screen and add the new note to the list
+                    keyboardType: TextInputType.multiline, // this enables enter key in textfield keyboard
+                    maxLines: null, // this will change the line automatically once the specified space is filled
+                    controller: notesContentController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none, hintText: widget.note.content,hintStyle: hintTextStyle),
+                    style: contentStyle,
+                  ),
+                ),
 
-            ]),
+                // create note button, will route to the main screen and add the new note to the list
+
+              ]),
+            ),
           )
           ],
         ),

@@ -2,7 +2,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fundoo_notes_app/UI/settings.dart';
+import 'package:fundoo_notes_app/UI/view_archive_notes.dart';
 import 'package:fundoo_notes_app/services/login_info.dart';
+import 'package:fundoo_notes_app/services/my_note_model.dart';
 import 'package:fundoo_notes_app/style/button_style.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
@@ -47,7 +49,7 @@ class SideMenu extends StatelessWidget {
               // draw menu-bar items
               _myNotesSection(),
               const SizedBox(height: 14),
-              _myArchivesSection(),
+              _myArchivesSection(context),
               const SizedBox(height: 14),
               TextButton(
                   style: buttonStyle,
@@ -83,10 +85,12 @@ class SideMenu extends StatelessWidget {
             ],
           ));
 
-  Widget _myArchivesSection() =>
+  Widget _myArchivesSection(BuildContext context) =>
       TextButton(
           style: buttonStyle,
-          onPressed: (){},
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewArchivedNotes()));
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

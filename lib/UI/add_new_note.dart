@@ -67,7 +67,7 @@ class _AddNewNoteState extends State<AddNewNote> {
                   controller: headingController,
                   decoration: const InputDecoration(
                       border: InputBorder.none, hintText: "Heading", hintStyle: TextStyle(color: Colors.black54, fontWeight: FontWeight.normal, fontSize: 25)),
-                  style:const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
+                  style:headingStyle,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,

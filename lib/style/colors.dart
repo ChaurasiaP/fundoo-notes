@@ -5,6 +5,7 @@ var searchBarBG = Colors.white70;
 var allRoutesBG = Colors.blue[200];
 var activeTab = Colors.blueAccent[200];
 var buttonsColor = Colors.blue.shade900;
+var tabItemColor = Colors.white;
 
 // optional list of colors to assign random colors to notes, everytime the app is opened
 // currently not in use

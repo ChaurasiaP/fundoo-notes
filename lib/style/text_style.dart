@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fundoo_notes_app/style/colors.dart';
 
-var headingStyle = const TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.bold,
-  color: Colors.black
-);
+var displayHeadingStyle = const TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w500,
+    fontSize: 16);
 
 var contentStyle = const TextStyle(
   fontSize: 14,
@@ -22,5 +21,6 @@ var subtitleTextStyle = const TextStyle(
 var hintTextStyle = const TextStyle(color: Colors.black54, fontSize: 14);
 
 var headingHintStyle = const TextStyle(color: Colors.black54, fontSize: 25);
+var headingStyle = const TextStyle(color: Colors.black, fontSize: 25);
 var tabsTextStyle = TextStyle(
     fontSize: 18, fontWeight: FontWeight.bold, color: buttonsColor);
